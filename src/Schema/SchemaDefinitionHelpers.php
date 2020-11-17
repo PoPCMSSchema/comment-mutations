@@ -26,7 +26,7 @@ class SchemaDefinitionHelpers
                     [
                         SchemaDefinition::ARGNAME_NAME => MutationInputProperties::CUSTOMPOST_ID,
                         SchemaDefinition::ARGNAME_TYPE => SchemaDefinition::TYPE_ID,
-                        SchemaDefinition::ARGNAME_DESCRIPTION => $translationAPI->__('The ID of the post to update', 'comment-mutations'),
+                        SchemaDefinition::ARGNAME_DESCRIPTION => $translationAPI->__('The ID of the custom post to add a comment to', 'comment-mutations'),
                         SchemaDefinition::ARGNAME_MANDATORY => true,
                     ],
                 ] : [],
@@ -36,6 +36,11 @@ class SchemaDefinitionHelpers
                         SchemaDefinition::ARGNAME_TYPE => SchemaDefinition::TYPE_STRING,
                         SchemaDefinition::ARGNAME_DESCRIPTION => $translationAPI->__('The comment to add', 'comment-mutations'),
                         SchemaDefinition::ARGNAME_MANDATORY => true,
+                    ],
+                    [
+                        SchemaDefinition::ARGNAME_NAME => MutationInputProperties::PARENT_COMMENT_ID,
+                        SchemaDefinition::ARGNAME_TYPE => SchemaDefinition::TYPE_ID,
+                        SchemaDefinition::ARGNAME_DESCRIPTION => $translationAPI->__('The ID of the parent comment', 'comment-mutations'),
                     ],
                 ]
             );
