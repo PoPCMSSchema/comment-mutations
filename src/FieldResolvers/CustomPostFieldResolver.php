@@ -7,11 +7,12 @@ namespace PoPSchema\CommentMutations\FieldResolvers;
 use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\Translation\Facades\TranslationAPIFacade;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
-use PoPSchema\CustomPosts\TypeResolvers\CustomPostTypeResolver;
+use PoPSchema\Comments\TypeResolvers\CommentTypeResolver;
 use PoP\ComponentModel\FieldResolvers\AbstractDBDataFieldResolver;
 use PoPSchema\CommentMutations\MutationResolvers\MutationInputProperties;
 use PoPSchema\CustomPosts\FieldInterfaceResolvers\IsCustomPostFieldInterfaceResolver;
 use PoPSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
+use PoPSchema\CommentMutations\Schema\SchemaDefinitionHelpers;
 
 class CustomPostFieldResolver extends AbstractDBDataFieldResolver
 {
@@ -44,24 +45,11 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
         return $types[$fieldName] ?? parent::getSchemaFieldType($typeResolver, $fieldName);
     }
 
-    public function isSchemaFieldResponseNonNullable(TypeResolverInterface $typeResolver, string $fieldName): bool
-    {
-        $nonNullableFieldNames = [
-            'addComment',
-        ];
-        if (in_array($fieldName, $nonNullableFieldNames)) {
-            return true;
-        }
-        return parent::isSchemaFieldResponseNonNullable($typeResolver, $fieldName);
-    }
-
     public function getSchemaFieldArgs(TypeResolverInterface $typeResolver, string $fieldName): array
     {
-        $translationAPI = TranslationAPIFacade::getInstance();
         switch ($fieldName) {
             case 'addComment':
-                return [
-                ];
+                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, false);
         }
         return parent::getSchemaFieldArgs($typeResolver, $fieldName);
     }
@@ -118,7 +106,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     {
         switch ($fieldName) {
             case 'addComment':
-                return CustomPostTypeResolver::class;
+                return CommentTypeResolver::class;
         }
 
         return parent::resolveFieldTypeResolverClass($typeResolver, $fieldName);

@@ -7,11 +7,12 @@ namespace PoPSchema\CommentMutations\FieldResolvers;
 use PoP\Engine\TypeResolvers\RootTypeResolver;
 use PoP\ComponentModel\Schema\SchemaDefinition;
 use PoP\Translation\Facades\TranslationAPIFacade;
+use PoPSchema\Comments\TypeResolvers\CommentTypeResolver;
 use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
-use PoPSchema\CustomPosts\TypeResolvers\CustomPostTypeResolver;
+use PoPSchema\CommentMutations\Schema\SchemaDefinitionHelpers;
 use PoP\ComponentModel\FieldResolvers\AbstractQueryableFieldResolver;
-use PoPSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
 use PoP\Engine\ComponentConfiguration as EngineComponentConfiguration;
+use PoPSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
 
 class RootFieldResolver extends AbstractQueryableFieldResolver
 {
@@ -49,11 +50,9 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
 
     public function getSchemaFieldArgs(TypeResolverInterface $typeResolver, string $fieldName): array
     {
-        $translationAPI = TranslationAPIFacade::getInstance();
         switch ($fieldName) {
             case 'addCommentToCustomPost':
-                return [
-                ];
+                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, true);
         }
         return parent::getSchemaFieldArgs($typeResolver, $fieldName);
     }
@@ -72,7 +71,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
     {
         switch ($fieldName) {
             case 'addCommentToCustomPost':
-                return CustomPostTypeResolver::class;
+                return CommentTypeResolver::class;
         }
 
         return parent::resolveFieldTypeResolverClass($typeResolver, $fieldName);

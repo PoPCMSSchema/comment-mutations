@@ -9,4 +9,8 @@ namespace PoPSchema\CommentMutations\TypeAPIs;
  */
 interface CommentTypeAPIInterface
 {
+    /**
+     * @return mixed
+     */
+    public function insertComment(array $comment_data);
 }
