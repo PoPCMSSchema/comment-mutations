@@ -1,4 +1,4 @@
-# Post Mutations
+# Comment Mutations
 
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -10,7 +10,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 -->
 
-Adds support for comment-mutations
+Adds support for comment mutations
 
 ## Install
 
