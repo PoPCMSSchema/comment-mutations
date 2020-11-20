@@ -7,19 +7,33 @@ namespace PoPSchema\CommentMutations\MutationResolvers;
 use PoP\Hooks\Facades\HooksAPIFacade;
 use PoP\ComponentModel\State\ApplicationState;
 use PoP\Translation\Facades\TranslationAPIFacade;
-use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
 use PoPSchema\CommentMutations\Facades\CommentTypeAPIFacade;
+use PoP\ComponentModel\MutationResolvers\AbstractMutationResolver;
+use PoPSchema\UserStateMutations\MutationResolvers\ValidateUserLoggedInMutationResolverTrait;
 
+/**
+ * Add a comment to a custom post. Currently, the user must be logged-in.
+ * @todo: Support non-logged-in users to add comments.
+ */
 class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
 {
+    use ValidateUserLoggedInMutationResolverTrait;
+
     public function validateErrors(array $form_data): ?array
     {
         $errors = [];
+
+        // Check that the user is logged-in
+        $this->validateUserIsLoggedIn($errors);
+        if ($errors) {
+            return $errors;
+        }
+
         if (empty($form_data[MutationInputProperties::CUSTOMPOST_ID])) {
-            $errors[] = TranslationAPIFacade::getInstance()->__('We don\'t know what post the comment is for. Please reload the page and try again.', 'pop-application');
+            $errors[] = TranslationAPIFacade::getInstance()->__('The custom post ID is missing.', 'comment-mutations');
         }
         if (empty($form_data[MutationInputProperties::COMMENT])) {
-            $errors[] = TranslationAPIFacade::getInstance()->__('The comment is empty.', 'pop-application');
+            $errors[] = TranslationAPIFacade::getInstance()->__('The comment is empty.', 'comment-mutations');
         }
         return $errors;
     }

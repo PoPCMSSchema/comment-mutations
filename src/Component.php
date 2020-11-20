@@ -27,7 +27,7 @@ class Component extends AbstractComponent
     {
         return [
             \PoPSchema\Comments\Component::class,
-            \PoPSchema\UserState\Component::class,
+            \PoPSchema\UserStateMutations\Component::class,
         ];
     }
 
