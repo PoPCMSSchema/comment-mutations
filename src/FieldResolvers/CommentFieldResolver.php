@@ -10,21 +10,20 @@ use PoP\ComponentModel\TypeResolvers\TypeResolverInterface;
 use PoPSchema\Comments\TypeResolvers\CommentTypeResolver;
 use PoP\ComponentModel\FieldResolvers\AbstractDBDataFieldResolver;
 use PoPSchema\CommentMutations\MutationResolvers\MutationInputProperties;
-use PoPSchema\CustomPosts\FieldInterfaceResolvers\IsCustomPostFieldInterfaceResolver;
 use PoPSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
 use PoPSchema\CommentMutations\Schema\SchemaDefinitionHelpers;
 
-class CustomPostFieldResolver extends AbstractDBDataFieldResolver
+class CommentFieldResolver extends AbstractDBDataFieldResolver
 {
     public static function getClassesToAttachTo(): array
     {
-        return array(IsCustomPostFieldInterfaceResolver::class);
+        return array(CommentTypeResolver::class);
     }
 
     public static function getFieldNamesToResolve(): array
     {
         return [
-            'addComment',
+            'reply',
         ];
     }
 
@@ -32,7 +31,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     {
         $translationAPI = TranslationAPIFacade::getInstance();
         $descriptions = [
-            'addComment' => $translationAPI->__('Add a comment to the custom post', 'comment-mutations'),
+            'reply' => $translationAPI->__('Reply a comment with another comment', 'comment-mutations'),
         ];
         return $descriptions[$fieldName] ?? parent::getSchemaFieldDescription($typeResolver, $fieldName);
     }
@@ -40,7 +39,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     public function getSchemaFieldType(TypeResolverInterface $typeResolver, string $fieldName): ?string
     {
         $types = [
-            'addComment' => SchemaDefinition::TYPE_ID,
+            'reply' => SchemaDefinition::TYPE_ID,
         ];
         return $types[$fieldName] ?? parent::getSchemaFieldType($typeResolver, $fieldName);
     }
@@ -48,8 +47,8 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     public function getSchemaFieldArgs(TypeResolverInterface $typeResolver, string $fieldName): array
     {
         switch ($fieldName) {
-            case 'addComment':
-                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, false, true);
+            case 'reply':
+                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, false, false);
         }
         return parent::getSchemaFieldArgs($typeResolver, $fieldName);
     }
@@ -64,7 +63,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
         string $fieldName
     ): bool {
         switch ($fieldName) {
-            case 'addComment':
+            case 'reply':
                 return true;
         }
         return parent::validateMutationOnResultItem($typeResolver, $fieldName);
@@ -82,10 +81,12 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
             $resultItem,
             $fieldName
         );
-        $customPost = $resultItem;
+        $comment = $resultItem;
         switch ($fieldName) {
-            case 'addComment':
-                $fieldArgs[MutationInputProperties::CUSTOMPOST_ID] = $typeResolver->getID($customPost);
+            case 'reply':
+                $cmscommentsresolver = \PoPSchema\Comments\ObjectPropertyResolverFactory::getInstance();
+                $fieldArgs[MutationInputProperties::CUSTOMPOST_ID] = $cmscommentsresolver->getCommentPostId($comment);
+                $fieldArgs[MutationInputProperties::PARENT_COMMENT_ID] = $typeResolver->getID($comment);
                 break;
         }
 
@@ -95,7 +96,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     public function resolveFieldMutationResolverClass(TypeResolverInterface $typeResolver, string $fieldName): ?string
     {
         switch ($fieldName) {
-            case 'addComment':
+            case 'reply':
                 return AddCommentToCustomPostMutationResolver::class;
         }
 
@@ -105,7 +106,7 @@ class CustomPostFieldResolver extends AbstractDBDataFieldResolver
     public function resolveFieldTypeResolverClass(TypeResolverInterface $typeResolver, string $fieldName): ?string
     {
         switch ($fieldName) {
-            case 'addComment':
+            case 'reply':
                 return CommentTypeResolver::class;
         }
 

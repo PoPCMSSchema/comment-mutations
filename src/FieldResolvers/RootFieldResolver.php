@@ -28,6 +28,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
         }
         return [
             'addCommentToCustomPost',
+            'replyComment',
         ];
     }
 
@@ -36,6 +37,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
         $translationAPI = TranslationAPIFacade::getInstance();
         $descriptions = [
             'addCommentToCustomPost' => $translationAPI->__('Add a comment to a custom post', 'comment-mutations'),
+            'replyComment' => $translationAPI->__('Reply a comment with another comment', 'comment-mutations'),
         ];
         return $descriptions[$fieldName] ?? parent::getSchemaFieldDescription($typeResolver, $fieldName);
     }
@@ -44,6 +46,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
     {
         $types = [
             'addCommentToCustomPost' => SchemaDefinition::TYPE_ID,
+            'replyComment' => SchemaDefinition::TYPE_ID,
         ];
         return $types[$fieldName] ?? parent::getSchemaFieldType($typeResolver, $fieldName);
     }
@@ -52,7 +55,9 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
     {
         switch ($fieldName) {
             case 'addCommentToCustomPost':
-                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, true);
+                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, true, true);
+            case 'replyComment':
+                return SchemaDefinitionHelpers::getAddCommentToCustomPostSchemaFieldArgs($typeResolver, $fieldName, false, true, true);
         }
         return parent::getSchemaFieldArgs($typeResolver, $fieldName);
     }
@@ -61,6 +66,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
     {
         switch ($fieldName) {
             case 'addCommentToCustomPost':
+            case 'replyComment':
                 return AddCommentToCustomPostMutationResolver::class;
         }
 
@@ -71,6 +77,7 @@ class RootFieldResolver extends AbstractQueryableFieldResolver
     {
         switch ($fieldName) {
             case 'addCommentToCustomPost':
+            case 'replyComment':
                 return CommentTypeResolver::class;
         }
 

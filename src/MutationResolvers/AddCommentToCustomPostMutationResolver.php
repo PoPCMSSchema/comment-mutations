@@ -29,7 +29,8 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
             return $errors;
         }
 
-        if (empty($form_data[MutationInputProperties::CUSTOMPOST_ID])) {
+        // Either provide the customPostID, or retrieve it from the parent comment
+        if (empty($form_data[MutationInputProperties::CUSTOMPOST_ID]) && empty($form_data[MutationInputProperties::PARENT_COMMENT_ID])) {
             $errors[] = TranslationAPIFacade::getInstance()->__('The custom post ID is missing.', 'comment-mutations');
         }
         if (empty($form_data[MutationInputProperties::COMMENT])) {
@@ -64,6 +65,15 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
             'parent' => $form_data[MutationInputProperties::PARENT_COMMENT_ID],
             'customPostID' => $form_data[MutationInputProperties::CUSTOMPOST_ID]
         );
+
+        // If the parent comment is provided and the custom post is not,
+        // then retrieve it from there
+        if ($comment_data['parent'] && !$comment_data['customPostID']) {
+            $cmscommentsapi = \PoPSchema\Comments\FunctionAPIFactory::getInstance();
+            $cmscommentsresolver = \PoPSchema\Comments\ObjectPropertyResolverFactory::getInstance();
+            $parentComment = $cmscommentsapi->getComment($comment_data['parent']);
+            $comment_data['customPostID'] = $cmscommentsresolver->getCommentPostId($parentComment);
+        }
 
         return $comment_data;
     }
