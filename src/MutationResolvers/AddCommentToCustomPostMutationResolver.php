@@ -68,7 +68,7 @@ class AddCommentToCustomPostMutationResolver extends AbstractMutationResolver
 
         // If the parent comment is provided and the custom post is not,
         // then retrieve it from there
-        if ($comment_data['parent'] && !$comment_data['customPostID']) {
+        if (isset($comment_data['parent']) && !isset($comment_data['customPostID'])) {
             $cmscommentsapi = \PoPSchema\Comments\FunctionAPIFactory::getInstance();
             $cmscommentsresolver = \PoPSchema\Comments\ObjectPropertyResolverFactory::getInstance();
             $parentComment = $cmscommentsapi->getComment($comment_data['parent']);
