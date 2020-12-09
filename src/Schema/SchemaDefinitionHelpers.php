@@ -21,7 +21,7 @@ class SchemaDefinitionHelpers
         bool $isParentCommentMandatory = false
     ): array {
         $key = get_class($typeResolver) . '-' . $fieldName;
-        if (is_null(self::$schemaFieldArgsCache[$key])) {
+        if (!isset(self::$schemaFieldArgsCache[$key])) {
             $translationAPI = TranslationAPIFacade::getInstance();
             self::$schemaFieldArgsCache[$key] = array_merge(
                 $addCustomPostID ? [
