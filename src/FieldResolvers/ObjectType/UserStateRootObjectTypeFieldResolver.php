@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PoPSchema\CommentMutations\FieldResolvers\ObjectType;
 
-use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableFieldResolver;
+use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractQueryableObjectTypeFieldResolver;
 use PoP\ComponentModel\FilterInput\FilterInputHelper;
 use PoP\ComponentModel\HelperServices\SemverHelperServiceInterface;
 use PoP\ComponentModel\Instances\InstanceManagerInterface;
@@ -27,11 +27,11 @@ use PoPSchema\SchemaCommons\DataLoading\ReturnTypes;
 use PoPSchema\SchemaCommons\FormInputs\OrderFormInput;
 use PoPSchema\SchemaCommons\ModuleProcessors\FormInputs\CommonFilterInputModuleProcessor;
 use PoPSchema\SchemaCommons\Resolvers\WithLimitFieldArgResolverTrait;
-use PoPSchema\UserState\FieldResolvers\ObjectType\UserStateFieldResolverTrait;
+use PoPSchema\UserState\FieldResolvers\ObjectType\UserStateObjectTypeFieldResolverTrait;
 
-class UserStateRootFieldResolver extends AbstractQueryableFieldResolver
+class UserStateRootObjectTypeFieldResolver extends AbstractQueryableObjectTypeFieldResolver
 {
-    use UserStateFieldResolverTrait;
+    use UserStateObjectTypeFieldResolverTrait;
     use WithLimitFieldArgResolverTrait;
 
     public function __construct(
