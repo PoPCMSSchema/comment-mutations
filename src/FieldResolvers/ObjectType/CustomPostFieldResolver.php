@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PoPSchema\CommentMutations\FieldResolvers;
+namespace PoPSchema\CommentMutations\FieldResolvers\ObjectType;
 
-use PoP\ComponentModel\FieldResolvers\AbstractDBDataFieldResolver;
+use PoP\ComponentModel\FieldResolvers\ObjectType\AbstractDBDataFieldResolver;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
 use PoPSchema\CommentMutations\MutationResolvers\AddCommentToCustomPostMutationResolver;
 use PoPSchema\CommentMutations\MutationResolvers\MutationInputProperties;
