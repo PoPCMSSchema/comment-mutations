@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace PoPCMSSchema\CommentMutations;
 
-use PoP\Root\Component\AbstractComponentConfiguration;
-use PoP\Root\Component\EnvironmentValueHelpers;
-use PoPCMSSchema\Users\Component as UsersComponent;
+use PoP\Root\Module\AbstractModuleConfiguration;
+use PoP\Root\Module\EnvironmentValueHelpers;
+use PoPCMSSchema\Users\Module as UsersModule;
 
-class ComponentConfiguration extends AbstractComponentConfiguration
+class ModuleConfiguration extends AbstractModuleConfiguration
 {
     public function mustUserBeLoggedInToAddComment(): bool
     {
         // The Users package must be active
-        if (!class_exists(UsersComponent::class)) {
+        if (!class_exists(UsersModule::class)) {
             return false;
         }
 

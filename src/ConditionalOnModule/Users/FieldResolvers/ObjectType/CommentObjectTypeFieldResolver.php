@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PoPCMSSchema\CommentMutations\ConditionalOnComponent\Users\FieldResolvers\ObjectType;
+namespace PoPCMSSchema\CommentMutations\ConditionalOnModule\Users\FieldResolvers\ObjectType;
 
 use PoP\ComponentModel\Feedback\ObjectTypeFieldResolutionFeedbackStore;
 use PoP\Root\App;
 use PoP\ComponentModel\TypeResolvers\ObjectType\ObjectTypeResolverInterface;
-use PoPCMSSchema\CommentMutations\Component;
-use PoPCMSSchema\CommentMutations\ComponentConfiguration;
-use PoPCMSSchema\Comments\ConditionalOnComponent\Users\TypeAPIs\CommentTypeAPIInterface as UserCommentTypeAPIInterface;
+use PoPCMSSchema\CommentMutations\Module;
+use PoPCMSSchema\CommentMutations\ModuleConfiguration;
+use PoPCMSSchema\Comments\ConditionalOnModule\Users\TypeAPIs\CommentTypeAPIInterface as UserCommentTypeAPIInterface;
 use PoPCMSSchema\Comments\FieldResolvers\ObjectType\CommentObjectTypeFieldResolver as UpstreamCommentObjectTypeFieldResolver;
 use PoPCMSSchema\Users\TypeAPIs\UserTypeAPIInterface;
 
@@ -52,9 +52,9 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
      */
     public function isServiceEnabled(): bool
     {
-        /** @var ComponentConfiguration */
-        $componentConfiguration = App::getComponent(Component::class)->getConfiguration();
-        return $componentConfiguration->mustUserBeLoggedInToAddComment();
+        /** @var ModuleConfiguration */
+        $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
+        return $moduleConfiguration->mustUserBeLoggedInToAddComment();
     }
 
     public function getFieldNamesToResolve(): array
