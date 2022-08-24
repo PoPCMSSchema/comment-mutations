@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PoPCMSSchema\CommentMutations\FieldResolvers\ObjectType;
 
+use PoP\ComponentModel\TypeResolvers\InputTypeResolverInterface;
 use PoP\ComponentModel\MutationResolvers\MutationResolverInterface;
 use PoP\ComponentModel\Schema\SchemaTypeModifiers;
 use PoP\ComponentModel\TypeResolvers\ConcreteTypeResolverInterface;
@@ -27,6 +28,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostOb
     }
     final protected function getCommentObjectTypeResolver(): CommentObjectTypeResolver
     {
+        /** @var CommentObjectTypeResolver */
         return $this->commentObjectTypeResolver ??= $this->instanceManager->getInstance(CommentObjectTypeResolver::class);
     }
     final public function setAddCommentToCustomPostMutationResolver(AddCommentToCustomPostMutationResolver $addCommentToCustomPostMutationResolver): void
@@ -35,6 +37,7 @@ class CustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostOb
     }
     final protected function getAddCommentToCustomPostMutationResolver(): AddCommentToCustomPostMutationResolver
     {
+        /** @var AddCommentToCustomPostMutationResolver */
         return $this->addCommentToCustomPostMutationResolver ??= $this->instanceManager->getInstance(AddCommentToCustomPostMutationResolver::class);
     }
     final public function setCustomPostAddCommentFilterInputObjectTypeResolver(CustomPostAddCommentFilterInputObjectTypeResolver $customPostAddCommentFilterInputObjectTypeResolver): void
@@ -43,9 +46,13 @@ class CustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostOb
     }
     final protected function getCustomPostAddCommentFilterInputObjectTypeResolver(): CustomPostAddCommentFilterInputObjectTypeResolver
     {
+        /** @var CustomPostAddCommentFilterInputObjectTypeResolver */
         return $this->customPostAddCommentFilterInputObjectTypeResolver ??= $this->instanceManager->getInstance(CustomPostAddCommentFilterInputObjectTypeResolver::class);
     }
 
+    /**
+     * @return array<class-string<ObjectTypeResolverInterface>>
+     */
     public function getObjectTypeResolverClassesToAttachTo(): array
     {
         return [
@@ -53,6 +60,9 @@ class CustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostOb
         ];
     }
 
+    /**
+     * @return string[]
+     */
     public function getFieldNamesToResolve(): array
     {
         return [
@@ -68,6 +78,9 @@ class CustomPostObjectTypeFieldResolver extends AbstractAddCommentToCustomPostOb
         };
     }
 
+    /**
+     * @return array<string, InputTypeResolverInterface>
+     */
     public function getFieldArgNameTypeResolvers(ObjectTypeResolverInterface $objectTypeResolver, string $fieldName): array
     {
         return match ($fieldName) {

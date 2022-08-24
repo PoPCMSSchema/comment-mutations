@@ -28,6 +28,7 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
     }
     final protected function getUserCommentTypeAPI(): UserCommentTypeAPIInterface
     {
+        /** @var UserCommentTypeAPIInterface */
         return $this->userCommentTypeAPI ??= $this->instanceManager->getInstance(UserCommentTypeAPIInterface::class);
     }
     final public function setUserTypeAPI(UserTypeAPIInterface $userTypeAPI): void
@@ -36,6 +37,7 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
     }
     final protected function getUserTypeAPI(): UserTypeAPIInterface
     {
+        /** @var UserTypeAPIInterface */
         return $this->userTypeAPI ??= $this->instanceManager->getInstance(UserTypeAPIInterface::class);
     }
 
@@ -58,6 +60,9 @@ class CommentObjectTypeFieldResolver extends UpstreamCommentObjectTypeFieldResol
         return $moduleConfiguration->mustUserBeLoggedInToAddComment();
     }
 
+    /**
+     * @return string[]
+     */
     public function getFieldNamesToResolve(): array
     {
         return [
