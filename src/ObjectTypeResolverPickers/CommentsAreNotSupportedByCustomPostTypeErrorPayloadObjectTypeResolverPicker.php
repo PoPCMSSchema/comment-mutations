@@ -6,10 +6,9 @@ namespace PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers;
 
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
-use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeResolver;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 
-class CommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPicker extends AbstractCommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPicker
+class CommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolverPicker extends AbstractCommentsAreNotSupportedByCustomPostTypeErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
@@ -18,7 +17,6 @@ class CommentParentCommentDoesNotExistMutationErrorPayloadObjectTypeResolverPick
     {
         return [
             RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver::class,
-            RootReplyCommentMutationErrorPayloadUnionTypeResolver::class,
             CustomPostAddCommentMutationErrorPayloadUnionTypeResolver::class,
         ];
     }

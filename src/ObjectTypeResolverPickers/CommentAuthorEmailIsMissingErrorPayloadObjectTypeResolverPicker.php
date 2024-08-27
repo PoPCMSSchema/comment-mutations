@@ -7,11 +7,10 @@ namespace PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers;
 use PoPCMSSchema\CommentMutations\Module;
 use PoPCMSSchema\CommentMutations\ModuleConfiguration;
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\AbstractCommentMutationErrorPayloadUnionTypeResolver;
-use PoPCMSSchema\UserStateMutations\ObjectTypeResolverPickers\AbstractUserIsNotLoggedInErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\App;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 
-class UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker extends AbstractUserIsNotLoggedInErrorPayloadObjectTypeResolverPicker
+class CommentAuthorEmailIsMissingErrorPayloadObjectTypeResolverPicker extends AbstractCommentAuthorEmailIsMissingErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
@@ -20,7 +19,7 @@ class UserIsNotLoggedInMutationErrorPayloadObjectTypeResolverPicker extends Abst
     {
         /** @var ModuleConfiguration */
         $moduleConfiguration = App::getModule(Module::class)->getConfiguration();
-        if (!$moduleConfiguration->mustUserBeLoggedInToAddComment()) {
+        if ($moduleConfiguration->mustUserBeLoggedInToAddComment()) {
             return [];
         }
         return [

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace PoPCMSSchema\CommentMutations\ObjectTypeResolverPickers;
 
-use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\CustomPostAddCommentMutationErrorPayloadUnionTypeResolver;
 use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver;
-use PoPCMSSchema\CommentMutations\TypeResolvers\UnionType\RootReplyCommentMutationErrorPayloadUnionTypeResolver;
+use PoPCMSSchema\CustomPostMutations\ObjectTypeResolverPickers\AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker;
 use PoP\ComponentModel\TypeResolvers\UnionType\UnionTypeResolverInterface;
 
-class CommentsAreNotOpenForCustomPostMutationErrorPayloadObjectTypeResolverPicker extends AbstractCommentsAreNotOpenForCustomPostMutationErrorPayloadObjectTypeResolverPicker
+class CustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker extends AbstractCustomPostDoesNotExistErrorPayloadObjectTypeResolverPicker
 {
     /**
      * @return array<class-string<UnionTypeResolverInterface>>
@@ -18,8 +17,6 @@ class CommentsAreNotOpenForCustomPostMutationErrorPayloadObjectTypeResolverPicke
     {
         return [
             RootAddCommentToCustomPostMutationErrorPayloadUnionTypeResolver::class,
-            RootReplyCommentMutationErrorPayloadUnionTypeResolver::class,
-            CustomPostAddCommentMutationErrorPayloadUnionTypeResolver::class,
         ];
     }
 }
